@@ -55,10 +55,12 @@ def Schur_Skew(mat):
     non_zero_tuples = [(np.abs(non_zeros[i]), non_zero_subspace[i]) for i in range(len(non_zeros))]
     non_zero_tuples.sort(key=(lambda e:e[0]))
     
+    # Create new blocks T
     T_zero = [np.zeros((2*n_zero, 2*n_zero))]
     T_nonzero = [t[0] * np.array([[0., 1.], [-1., 0.]]) for t in non_zero_tuples]
     T_new = block_diag(*(T_zero + T_nonzero))
 
+    # Create new eigen-modes (the orthogonal matrix)
     Z_new = Z.copy()
     Z_new[:, :(2*n_zero)] = nullspace
     for i, t in enumerate(non_zero_tuples):
